@@ -11,6 +11,13 @@ import {
   postSubmissions,
   publishDictionary,
 } from "./backend-calls";
+import {
+  deleteEntry,
+  getEntriesFromSheet,
+  addDictionaryEntries,
+  updateDictionaryFields,
+  updateDictionaryEntries,
+} from "./spreadsheet-tools";
 export {
   // FUNCTIONS
   getTimestamp,
@@ -25,6 +32,12 @@ export {
   postTestResults,
   postSubmissions,
   publishDictionary,
+  // spreadsheet utils
+  deleteEntry,
+  getEntriesFromSheet,
+  addDictionaryEntries,
+  updateDictionaryFields,
+  updateDictionaryEntries,
   // TYPES
   type AT,
 };

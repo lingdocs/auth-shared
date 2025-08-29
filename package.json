@@ -1,6 +1,6 @@
 {
   "name": "@lingdocs/auth-shared",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "shared auth/user utilities for lingdocs",
   "license": "MIT",
   "author": "lingdocs.com",
@@ -20,15 +20,16 @@
     "major": "npm version major --no-git-tag-version"
   },
   "dependencies": {
+    "@googleapis/sheets": "^11.1.0",
     "@lingdocs/pashto-inflector": "^9.0.2",
+    "@types/passport-github2": "^1.2.9",
+    "@types/passport-google-oauth": "^1.0.45",
+    "@types/passport-twitter": "^1.0.40",
     "nano": "^10.1.4",
     "passport-github2": "^0.1.12",
     "passport-google-oauth": "^2.0.0",
     "passport-twitter": "^1.0.4",
-    "stripe": "^18.5.0",
-    "@types/passport-github2": "^1.2.9",
-    "@types/passport-google-oauth": "^1.0.45",
-    "@types/passport-twitter": "^1.0.40"
+    "stripe": "^18.5.0"
   },
   "devDependencies": {
     "typescript": "^5.9.2"
