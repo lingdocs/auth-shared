@@ -14,8 +14,10 @@
   ],
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "patch": "npm version patch --no-git-tag-version",
+    "minor": "npm version minor --no-git-tag-version",
+    "major": "npm version major --no-git-tag-version"
   },
   "dependencies": {
     "@lingdocs/pashto-inflector": "^9.0.2",
