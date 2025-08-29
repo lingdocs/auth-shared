@@ -1,0 +1,207 @@
+export type Hash = string & { __brand: "Hashed String" };
+export type UUID = string & { __brand: "Random Unique UID" };
+export type TimeStamp = number & { __brand: "UNIX Timestamp in milliseconds" };
+export type UserDbPassword = string & {
+  __brand: "password for an individual user couchdb";
+};
+export type WordlistDbName = string & {
+  __brand: "name for an individual user couchdb";
+};
+export type URLToken = string & { __brand: "Base 64 URL Token" };
+export type EmailVerified = true | Hash | false;
+export type ActionComplete = {
+  ok: true;
+  message: string;
+  tests?: TestResult[];
+};
+export type ActionError = { ok: false; error: string };
+export type APIResponse =
+  | ActionComplete
+  | ActionError
+  | { ok: true; user: LingdocsUser };
+
+export type WoutRJ<T> = Omit<T, "_raw" | "_json">;
+
+export type GoogleProfile = WoutRJ<import("passport-google-oauth").Profile> & {
+  refreshToken: string;
+  accessToken: string;
+};
+export type GitHubProfile = WoutRJ<import("passport-github2").Profile> & {
+  accessToken: string;
+};
+export type TwitterProfile = WoutRJ<import("passport-twitter").Profile> & {
+  token: string;
+  tokenSecret: string;
+};
+export type ProviderProfile = GoogleProfile | GitHubProfile | TwitterProfile;
+export type UserLevel = "basic" | "student" | "editor";
+
+export type UserTextOptions = Omit<
+  import("@lingdocs/pashto-inflector/lib").Types.TextOptions,
+  "pTextSize"
+>;
+
+export type UserTextOptionsRecord = {
+  lastModified: TimeStamp;
+  userTextOptions: UserTextOptions;
+};
+
+export type TestResult = {
+  done: boolean;
+  time: TimeStamp;
+  id: string;
+};
+
+export type StripeSubscription = import("stripe").Stripe.Subscription;
+
+// TODO: TYPE GUARDING SO WE NEVER HAVE A USER WITH NO Id or Password
+export type LingdocsUser = {
+  userId: UUID;
+  admin?: boolean;
+  password?: Hash;
+  name: string;
+  email?: string;
+  emailVerified: EmailVerified;
+  github?: GitHubProfile;
+  google?: GoogleProfile;
+  twitter?: TwitterProfile;
+  passwordReset?: {
+    tokenHash: Hash;
+    requestedOn: TimeStamp;
+  };
+  upgradeToStudentRequest?: "waiting" | "denied";
+  tests: TestResult[];
+  accountCreated?: TimeStamp;
+  lastLogin: TimeStamp;
+  lastActive: TimeStamp;
+} & (
+  | { level: "basic" }
+  | {
+      level: "student" | "editor";
+      couchDbPassword: UserDbPassword;
+      wordlistDbName: WordlistDbName;
+      subscription?: StripeSubscription;
+    }
+) &
+  import("nano").MaybeDocument;
+
+export const mockUser: LingdocsUser = {
+  userId: "12345" as UUID,
+  name: "Test User",
+  tests: [],
+  lastLogin: 1234 as TimeStamp,
+  lastActive: 1234 as TimeStamp,
+  level: "student",
+  couchDbPassword: "1234" as UserDbPassword,
+  wordlistDbName: "abc" as WordlistDbName,
+  emailVerified: true,
+};
+
+export type CouchDbAuthUser = {
+  type: "user";
+  name: UUID;
+  password: UserDbPassword;
+  roles: [];
+} & import("nano").MaybeDocument;
+
+export type UpgradeUserResponse =
+  | {
+      ok: false;
+      error: "incorrect password";
+    }
+  | {
+      ok: true;
+      message: "user already upgraded" | "user upgraded to student";
+      user: LingdocsUser;
+    };
+
+export type DowngradeUserResponse = {
+  ok: true;
+  message: "user downgraded to basic";
+  user: LingdocsUser;
+};
+
+export type PostTestResultsBody = { tests: TestResult[] };
+export type PostTestResultsResponse = {
+  ok: true;
+  message: "posted test results";
+  tests: TestResult[];
+};
+
+export type UpdateUserTextOptionsRecordBody = {
+  userTextOptionsRecord: UserTextOptionsRecord;
+};
+
+export type UpdateUserTextOptionsRecordResponse = {
+  ok: true;
+  message: "updated userTextOptionsRecord";
+  user: LingdocsUser;
+};
+
+export type FunctionError = { ok: false; error: string };
+
+export type PublishDictionaryResponse =
+  | {
+      ok: true;
+      info: import("@lingdocs/pashto-inflector/lib").Types.DictionaryInfo;
+    }
+  | {
+      ok: false;
+      errors: import("@lingdocs/pashto-inflector/lib").Types.DictionaryEntryError[];
+    };
+
+export type Submission = Edit | ReviewTask;
+
+export type Edit = EntryEdit | NewEntry | EntryDeletion;
+
+export type SubmissionBase = {
+  _id: string;
+  sTs: number;
+  user: {
+    userId: UUID;
+    name: string;
+    email: string;
+  };
+};
+
+export type ReviewTask = Issue | EditSuggestion | EntrySuggestion;
+
+export type EntryEdit = SubmissionBase & {
+  type: "entry edit";
+  entry: import("@lingdocs/pashto-inflector/lib").Types.DictionaryEntry;
+};
+
+export type EntryDeletion = SubmissionBase & {
+  type: "entry deletion";
+  ts: number;
+};
+
+export type NewEntry = SubmissionBase & {
+  type: "new entry";
+  entry: import("@lingdocs/pashto-inflector/lib").Types.DictionaryEntry;
+};
+
+export type Issue = SubmissionBase & {
+  type: "issue";
+  content: string;
+};
+
+export type EditSuggestion = SubmissionBase & {
+  type: "edit suggestion";
+  entry: import("@lingdocs/pashto-inflector/lib").Types.DictionaryEntry;
+  comment: string;
+};
+
+export type EntrySuggestion = SubmissionBase & {
+  type: "entry suggestion";
+  entry: import("@lingdocs/pashto-inflector/lib").Types.DictionaryEntry;
+  comment: string;
+};
+
+export type SubmissionsRequest = Submission[];
+
+export type SubmissionsResponse = {
+  ok: true;
+  message: string;
+  submissions: Submission[];
+};
