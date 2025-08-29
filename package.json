@@ -1,6 +1,6 @@
 {
   "name": "@lingdocs/auth-shared",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "shared auth/user utilities for lingdocs",
   "license": "MIT",
   "author": "lingdocs.com",

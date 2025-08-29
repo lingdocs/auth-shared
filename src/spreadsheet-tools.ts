@@ -8,7 +8,7 @@ import {
   Types as T,
   standardizeEntry,
 } from "@lingdocs/pashto-inflector/lib";
-import { EntryDeletion, EntryEdit } from "./types";
+import { EntryDeletion, EntryEdit, NewEntry } from "./types";
 
 const validFields = [
   ...dictionaryEntryTextFields,
