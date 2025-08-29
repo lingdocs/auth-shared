@@ -11,6 +11,7 @@ import {
   postSubmissions,
   publishDictionary,
 } from "./backend-calls";
+import { getUUID } from "./user-utils";
 import {
   deleteEntry,
   getEntriesFromSheet,
@@ -24,6 +25,7 @@ export {
   getTimestamp,
   objIsEqual,
   userObjIsEqual,
+  getUUID,
   // fetching
   myFetch,
   signOut,
