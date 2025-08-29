@@ -3,6 +3,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "alwaysStrict": true,
+    "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "bundler",

@@ -8,6 +8,8 @@ import {
   upgradeToStudentRequest,
   getUser,
   postTestResults,
+  postSubmissions,
+  publishDictionary,
 } from "./backend-calls";
 export {
   // FUNCTIONS
@@ -21,6 +23,8 @@ export {
   upgradeToStudentRequest,
   getUser,
   postTestResults,
+  postSubmissions,
+  publishDictionary,
   // TYPES
   type AT,
 };
