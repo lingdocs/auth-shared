@@ -17,6 +17,7 @@ import {
   addDictionaryEntries,
   updateDictionaryFields,
   updateDictionaryEntries,
+  type Sheets,
 } from "./spreadsheet-tools";
 export {
   // FUNCTIONS
@@ -39,5 +40,6 @@ export {
   updateDictionaryFields,
   updateDictionaryEntries,
   // TYPES
+  type Sheets,
   type AT,
 };
